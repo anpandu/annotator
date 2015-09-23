@@ -26,9 +26,13 @@ module.exports.routes = {
     view: 'homepage'
   },
 
+	// AUTH
   'get /login': 'AuthController.loginPage',
   'post /login': 'AuthController.login',
   '/logout': 'AuthController.logout',
   'get /register': 'AuthController.register',
+
+  // Annotate
+  'get /tag/:content_id': 'TagController.getContent',
   
 };

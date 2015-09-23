@@ -24,11 +24,18 @@
     "sails-disk": "~0.10.0",
     "bcrypt": "~0.8.0",
     "passport": "~0.2.1",
-    "passport-local": "~1.0.0"
+    "passport-local": "~1.0.0",
+    "sails-mongo": "^0.11.2"
+  },
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "mocha": "^2.2.5",
+    "supertest": "^1.0.1"
   },
   "scripts": {
     "debug": "node debug app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "mocha tests/bootstrap.test.js tests/**/*.js --recursive --no-timeouts"
   },
   "main": "app.js",
   "repository": {

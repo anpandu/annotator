@@ -9,6 +9,10 @@ module.exports = {
 
   attributes: {
 
+    title: {type: 'string'},
+    text: {type: 'string'}
+
   }
+  
 };
 

@@ -2,7 +2,7 @@ var Sails = require('sails'),
 chai  = require('chai'),
 sails;
 
-// global.request = require('supertest');
+global.request = require('supertest');
 global.should  = chai.should();
 global.assert  = chai.assert;
 

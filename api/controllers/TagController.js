@@ -14,7 +14,9 @@ module.exports = {
       .then(function (result) {
         if (_.isUndefined(result))
           cs.respondNotFound('content not found');
-        cs.respondSuccess(result);
+        return res.view('tag/tagger', {
+          content: result
+        });
       })
   }
 

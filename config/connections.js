@@ -69,9 +69,14 @@ module.exports.connections = {
     adapter: 'sails-mongo',
     host: 'localhost',
     port: 27017,
-    // user: 'username',
-    // password: 'password',
     database: 'annotation'
+  },
+  
+  annotation_test: {
+    adapter: 'sails-mongo',
+    host: 'localhost',
+    port: 27017,
+    database: 'annotation_test'
   },
 
   /***************************************************************************

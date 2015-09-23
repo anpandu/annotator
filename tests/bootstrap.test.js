@@ -13,7 +13,7 @@ before(function(done) {
     environment: 'test',
     port: 1337,
     models: {
-      connection: 'annotation',
+      connection: 'annotation_test',
       migrate: 'drop'
     }
   }, function(err, server) {

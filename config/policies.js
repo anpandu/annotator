@@ -25,6 +25,10 @@ module.exports.policies = {
     '*': 'isAuthenticated'
   },
   
+  'TagController': {
+    '*': 'isAuthenticated'
+  },
+  
   'AuthController': {
     'loginPage': 'isNotAuthenticated',
     'register': 'isNotAuthenticated'

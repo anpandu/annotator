@@ -34,5 +34,6 @@ module.exports.routes = {
 
   // Annotate
   'get /tag/:content_id': 'TagController.getContent',
+  'post /tag/:content_id': 'TagController.storeAnnotation',
   
 };

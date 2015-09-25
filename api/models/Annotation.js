@@ -13,7 +13,8 @@ module.exports = {
 
     text: {type: 'string'},
     value: {type: 'json'},
-    user : { model: 'user' }
+    user : { model: 'user' },
+    content : { model: 'content' }
 
   }
   

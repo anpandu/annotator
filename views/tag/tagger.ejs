@@ -1,10 +1,6 @@
 <script>
     var _content = <%-JSON.stringify(content)%>;
-    var _tags = [
-      {title:'person'},
-      {title:'place'},
-      {title:'time'}
-    ]
+    var _tags = <%-JSON.stringify(tags)%>
 </script>
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
@@ -35,7 +31,7 @@
             <form class="form-horizontal" method="POST" action="/tag/<%-content.id%>">
               <div id="tag_list"></div>
               <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
+                <div class="col-sm-offset-3 col-sm-9">
                   <button type="submit" class="btn btn-default">submit</button>
                 </div>
               </div>

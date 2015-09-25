@@ -4,9 +4,9 @@ var TagCard = React.createClass({
         var label = tag.title.charAt(0).toUpperCase() + tag.title.slice(1).toLowerCase();
         return (
             <div className="form-group">
-              <label for="{tag.title}" className="col-sm-2 control-label">{label}</label>
-              <div className="col-sm-10">
-                <input type="text" className="form-control" id={tag.title} placeholder={tag.title} name={tag.title}/>
+              <label for="{tag.title}" className="col-sm-3 control-label">{label}</label>
+              <div className="col-sm-9">
+                <input type="text" className="form-control" id={tag.title} placeholder={tag.title} name={tag.title} defaultValue={tag.content}/>
               </div>
             </div>
         );

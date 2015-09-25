@@ -11,16 +11,43 @@ module.exports = {
   
   getContent: function (req, res) {
     var cs = ControllerService.build(res);
-    Content
-      .findOne(req.param('content_id'))
-      .then(function (result) {
-        if (_.isUndefined(result))
-          cs.respondNotFound('content not found');
-        else
-          return res.view('tag/tagger', {
-            content: result
-          });
+    var _tags = [
+      {title: 'organization', content:''},
+      {title: 'place', content:''},
+      {title: 'time', content:''}
+    ];
+
+    Promise
+      .resolve()
+      .then(function () {
+        return Content.findOne(req.param('content_id'))
       })
+      .then(function (content) {
+        if (_.isUndefined(content))
+          return Promise.reject('content not found');
+        else {
+          var p = Annotation.findOne({content: content.id});
+          return Promise.all([content, p]);
+        }
+      })
+      .then(function (result) {
+        var content = result[0];
+        var annotation = result[1];
+        var tags = [];
+        if (_.isUndefined(annotation))
+          tags =  _tags;
+        else {
+          var keys = _.keys(annotation.value);
+          var values = _.values(annotation.value);
+          for (var i = 0; i < keys.length; i++)
+            tags.push({'title': keys[i], 'content': values[i]})
+        }
+        return res.view('tag/tagger', {
+          content: content,
+          tags: tags
+        });
+      })
+      .catch(function (arg) { cs.respondNotFound(arg); })
   },
   
   storeAnnotation: function (req, res) {
@@ -38,13 +65,14 @@ module.exports = {
       .then(function (content) {
         return Annotation
           .findOrCreate({ 
-              text: content.text,
+              content: content_id,
               user: user_id
             },
             {
               text: content.text,
               value: params,
-              user: user_id
+              user: user_id,
+              content: content_id
           })
       })
       .then(function (annotation) {
@@ -52,7 +80,11 @@ module.exports = {
           .update({id: annotation.id}, {value: params})
       })
       .then(function (annotation) {
-        cs.respondSuccess(annotation);
+        return Content
+          .update({id: content_id}, {annotation: annotation.id})
+          .then(function () {
+            cs.respondSuccess(annotation);
+          })
       })
   }
 

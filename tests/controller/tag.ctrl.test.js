@@ -11,9 +11,10 @@ describe('TagController', function() {
           _content = content;
           request(sails.hooks.http.app)
             .get(endpoint+"/"+_content.id)
+            .expect(200)
             .expect(function(res) {
-              var result = res.body;
-              console.log(result);
+              // var result = res.body;
+              // console.log(res.text);
               // assert('title' in result, 'title field doesn\'t exist' );
               // assert('text' in result, 'text field doesn\'t exist' );
               // assert(result.id == _content.id, 'wrong content' );
@@ -27,6 +28,7 @@ describe('TagController', function() {
         .then(function () {
           request(sails.hooks.http.app)
             .get(endpoint+"/fakeid")
+            .expect(404)
             .expect(function(res) {
               var result = res.body;
               assert(_.isPlainObject(result), 'result is not object');

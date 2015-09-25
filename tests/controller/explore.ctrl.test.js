@@ -1,4 +1,4 @@
-describe('TagController', function() {
+describe('ExploreController', function() {
 
   var endpoint = '/explore';
 

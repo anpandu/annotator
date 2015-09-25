@@ -12,7 +12,15 @@ module.exports = {
   attributes: {
 
     title: {type: 'string'},
-    text: {type: 'string'}
+    text: {type: 'string'},
+
+    getContentRowForm: function () {
+      var _this = this.toJSON();
+      var result = {
+      	title: _this.title
+      };
+      return result;
+    }
 
   }
   

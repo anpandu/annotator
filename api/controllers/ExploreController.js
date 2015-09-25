@@ -21,7 +21,10 @@ module.exports = {
           .limit(10)
       })
       .then(function (contents) {
-        return contents.map(function (c) { return c;})
+        return contents
+          .map(function (c) {
+            return c.getContentRowForm();
+          })
       })
       .then(function (contents) {
         // cs.respondSuccess(contents);

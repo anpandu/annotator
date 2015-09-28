@@ -10,7 +10,7 @@ var Promise = require('bluebird')
 module.exports = {
   
   getContent: function (req, res) {
-    var cs = ControllerService.build(res);
+    var cs = ControllerService.build(req, res);
     var _tags = [
       {title: 'organization', content:''},
       {title: 'place', content:''},
@@ -42,16 +42,18 @@ module.exports = {
           for (var i = 0; i < keys.length; i++)
             tags.push({'title': keys[i], 'content': values[i]})
         }
-        return res.view('tag/tagger', {
+        cs.view('tag/tagger', {
           content: content,
           tags: tags
         });
       })
-      .catch(function (arg) { cs.respondNotFound(arg); })
+      .catch(function (arg) { 
+        cs.redirect('/explore/1');
+      })
   },
   
   storeAnnotation: function (req, res) {
-    var cs = ControllerService.build(res);
+    var cs = ControllerService.build(req, res);
     var params = req.allParams();
     var content_id = params['content_id'];
     var user_id = req.user.id;
@@ -83,7 +85,8 @@ module.exports = {
         return Content
           .update({id: content_id}, {annotation: annotation.id})
           .then(function () {
-            cs.respondSuccess(annotation);
+            var next = +content_id + 1;
+            cs.redirect('/tag/'+next);
           })
       })
   }

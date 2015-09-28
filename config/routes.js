@@ -22,9 +22,10 @@
 
 module.exports.routes = {
 
-  '/': {
-    view: 'homepage'
-  },
+  '/': [
+    {policy: 'isNotAuthenticated'},
+    {view: 'homepage'}
+  ],
 
 	// AUTH
   'get /login': 'AuthController.loginPage',
@@ -35,5 +36,9 @@ module.exports.routes = {
   // Annotate
   'get /tag/:content_id': 'TagController.getContent',
   'post /tag/:content_id': 'TagController.storeAnnotation',
+
+  // Explore
+  'get /explore': 'ExploreController.getContent',
+  'get /explore/:page': 'ExploreController.getContent',
   
 };

@@ -1,4 +1,10 @@
 var TagCard = React.createClass({
+    addCopy: function () {
+        this.props.addCopyToTagList(this.props.tag);
+    },
+    remCopy: function () {
+        this.props.remCopyFromTagList(this.props.tag);
+    },
     render: function () {
         var tag = this.props.tag;
         var label = tag.title.charAt(0).toUpperCase() + tag.title.slice(1).toLowerCase();
@@ -6,7 +12,11 @@ var TagCard = React.createClass({
             <div className="form-group">
               <label for="{tag.title}" className="col-sm-3 control-label">{label}</label>
               <div className="col-sm-9">
-                <input type="text" className="form-control" id={tag.title} placeholder={tag.title} name={tag.title} defaultValue={tag.content}/>
+                <div className="input-group">
+                    <input type="text" className="form-control" id={tag.title} placeholder={tag.title} name={tag.title} defaultValue={tag.content}/>
+                    <span role="button" onClick={this.addCopy} className="input-group-addon">+</span>
+                    <span role="button" onClick={this.remCopy} className="input-group-addon">x</span>
+                </div>
               </div>
             </div>
         );
@@ -19,10 +29,31 @@ var TagList = React.createClass({
     componentDidMount: function () {
         this.setState({tags: this.props.tags});
     },
+    handleAddCopy: function (data) {
+        var new_tags = JSON.parse(JSON.stringify(this.state.tags));
+        var new_data = JSON.parse(JSON.stringify(data));
+        new_data.content = '';
+        new_tags.push(new_data);
+        this.setState({tags: new_tags});
+        this.forceUpdate();
+    },
+    handleRemCopy: function (data) {
+        var new_tags = JSON.parse(JSON.stringify(this.state.tags));
+        var new_data = JSON.parse(JSON.stringify(data));
+        var idx = 0;
+        for (var i = 0; i < new_tags.length; i++) 
+            if (new_tags[i].tag_id == data.tag_id)
+                idx = i;
+        new_tags.splice(idx, 1);
+        this.setState({tags: new_tags});
+        this.forceUpdate();
+    },
     render: function () {
+        var _this = this;
         var tagCards = this.state.tags.map(function (tag) {
+            tag.tag_id = Math.random();
             return (
-                <TagCard tag={tag}></TagCard>
+                <TagCard tag={tag} addCopyToTagList={_this.handleAddCopy} remCopyFromTagList={_this.handleRemCopy}></TagCard>
             );
         });
         return (

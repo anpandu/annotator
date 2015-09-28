@@ -30,25 +30,23 @@ var TagList = React.createClass({
         this.setState({tags: this.props.tags});
     },
     handleAddCopy: function (data) {
-        var new_tags = JSON.parse(JSON.stringify(this.props.tags));
+        var new_tags = JSON.parse(JSON.stringify(this.state.tags));
         var new_data = JSON.parse(JSON.stringify(data));
-        var idx = 0;
-        for (var i = 0; i < new_tags.length; i++) if (new_tags[i].title == data.title) idx = i+1;
         new_data.content = '';
-        new_tags.splice(idx, 0, new_data);
-        React.unmountComponentAtNode(document.getElementById('tag_list'));
-        React.render( <TagList tags={new_tags}/>, document.getElementById('tag_list') );
+        new_tags.push(new_data);
+        this.setState({tags: new_tags});
+        this.forceUpdate();
     },
     handleRemCopy: function (data) {
-        var new_tags = JSON.parse(JSON.stringify(this.props.tags));
+        var new_tags = JSON.parse(JSON.stringify(this.state.tags));
         var new_data = JSON.parse(JSON.stringify(data));
         var idx = 0;
         for (var i = 0; i < new_tags.length; i++) 
             if (new_tags[i].tag_id == data.tag_id)
                 idx = i;
         new_tags.splice(idx, 1);
-        React.unmountComponentAtNode(document.getElementById('tag_list'));
-        React.render( <TagList tags={new_tags}/>, document.getElementById('tag_list') );
+        this.setState({tags: new_tags});
+        this.forceUpdate();
     },
     render: function () {
         var _this = this;

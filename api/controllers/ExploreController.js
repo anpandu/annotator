@@ -12,7 +12,7 @@ module.exports = {
   getContent: function (req, res) {
     var cs = ControllerService.build(req, res);
     var params = req.allParams();
-    var page = +params['page']-1;
+    var page = _.isUndefined(params['page']) ? 0 : +params['page']-1;
     var itemsPerPage = 10;
 
     Promise

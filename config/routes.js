@@ -37,6 +37,7 @@ module.exports.routes = {
   'post /tag/:content_id': 'TagController.storeAnnotation',
 
   // Explore
+  'get /explore': 'ExploreController.getContent',
   'get /explore/:page': 'ExploreController.getContent',
   
 };

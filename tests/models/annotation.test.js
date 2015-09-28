@@ -50,5 +50,26 @@ describe('AnnotationModel', function() {
 
   });
 
+  describe('#getTags', function() {
+
+    it('should return singular tags', function (done) {
+      Annotation
+        .create({ text:'test_annotation_1.2', value: {someValue:'test_annotation_1.2', someValueB: ['test_annotation_1.2b', 'test_annotation_1.2c']} })
+        .then(function (annotation) {
+          assert('text' in annotation, 'text field doesn\'t exist' );
+          assert('value' in annotation, 'value field doesn\'t exist' );
+          assert(_.isPlainObject(annotation.value), 'value is not object' );
+          return annotation.getTags();
+        })
+        .then(function (tags) {
+          console.log(tags);
+          assert(_.isArray(tags), 'tags is not array' );
+          assert(tags.length == 3, 'wrong number of tags' );
+          done();
+        })
+        .catch(done);
+    });
+
+  });
 
 });

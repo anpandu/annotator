@@ -38,8 +38,9 @@ module.exports = {
         if (_.isUndefined(annotation))
           tags =  _tags;
         else {
-          var keys = _.keys(annotation.value);
-          var values = _.values(annotation.value);
+          var temp_tags = annotation.getTags();
+          var keys = _.map(temp_tags, function (tt) { return tt[0]; });
+          var values = _.map(temp_tags, function (tt) { return tt[1]; });
           for (var i = 0; i < keys.length; i++)
             tags.push({'title': keys[i], 'content': values[i]})
           for (var i = 0; i < _tags.length; i++)

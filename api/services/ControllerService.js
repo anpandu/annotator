@@ -23,6 +23,10 @@ ControllerService.prototype.respondSuccess = function(obj){
   return this.res.json(ControllerService.prototype.okStatus, obj);
 };
 
+ControllerService.prototype.redirect = function(url){
+  return this.res.redirect(url);
+};
+
 ControllerService.prototype.build = function (res) {
   return new ControllerService(res);
 }

@@ -47,7 +47,9 @@ module.exports = {
           tags: tags
         });
       })
-      .catch(function (arg) { cs.respondNotFound(arg); })
+      .catch(function (arg) { 
+        cs.redirect('/explore/1');
+      })
   },
   
   storeAnnotation: function (req, res) {
@@ -83,7 +85,8 @@ module.exports = {
         return Content
           .update({id: content_id}, {annotation: annotation.id})
           .then(function () {
-            cs.respondSuccess(annotation);
+            var next = +content_id + 1;
+            cs.redirect('/tag/'+next);
           })
       })
   }

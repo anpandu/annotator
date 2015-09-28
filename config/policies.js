@@ -29,6 +29,10 @@ module.exports.policies = {
     '*': 'isAuthenticated'
   },
   
+  'ExploreController': {
+    '*': 'isAuthenticated'
+  },
+  
   'AuthController': {
     'loginPage': 'isNotAuthenticated',
     'register': 'isNotAuthenticated'

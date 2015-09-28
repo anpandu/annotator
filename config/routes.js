@@ -22,9 +22,10 @@
 
 module.exports.routes = {
 
-  '/': {
-    view: 'homepage'
-  },
+  '/': [
+    {policy: 'isNotAuthenticated'},
+    {view: 'homepage'}
+  ],
 
 	// AUTH
   'get /login': 'AuthController.loginPage',

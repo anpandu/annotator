@@ -27,7 +27,7 @@ module.exports = {
       req.logIn(user, function(err) {
         if (err) 
           res.send(err);
-        res.redirect('/');
+        res.redirect('/explore');
         // return res.send({
         //   message: info.message,
         //   user: user

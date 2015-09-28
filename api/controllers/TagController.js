@@ -10,7 +10,7 @@ var Promise = require('bluebird')
 module.exports = {
   
   getContent: function (req, res) {
-    var cs = ControllerService.build(res);
+    var cs = ControllerService.build(req, res);
     var _tags = [
       {title: 'organization', content:''},
       {title: 'place', content:''},
@@ -42,7 +42,7 @@ module.exports = {
           for (var i = 0; i < keys.length; i++)
             tags.push({'title': keys[i], 'content': values[i]})
         }
-        return res.view('tag/tagger', {
+        cs.view('tag/tagger', {
           content: content,
           tags: tags
         });
@@ -53,7 +53,7 @@ module.exports = {
   },
   
   storeAnnotation: function (req, res) {
-    var cs = ControllerService.build(res);
+    var cs = ControllerService.build(req, res);
     var params = req.allParams();
     var content_id = params['content_id'];
     var user_id = req.user.id;

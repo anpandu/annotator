@@ -10,35 +10,35 @@ describe('TagController', function() {
         .then(function (content) {
           _content = content;
           request(sails.hooks.http.app)
-            .get(endpoint+"/"+_content.id)
+            .get(endpoint+"/"+_content.id+"?mock")
             .expect(200)
             .expect(function(res) {
-              // var result = res.body;
-              // console.log(res.text);
-              // assert('title' in result, 'title field doesn\'t exist' );
-              // assert('text' in result, 'text field doesn\'t exist' );
-              // assert(result.id == _content.id, 'wrong content' );
+              var result = res.body;
+              assert('content' in result, 'content field doesn\'t exist' );
+              assert(result.content.id == _content.id, 'wrong content' );
+              assert('tags' in result, 'tags field doesn\'t exist' );
+              assert(_.isArray(result.tags), 'tags isn\'t array' );
             })
             .end(done);
         });
     });
 
-    it('should return 404 when content not found', function (done) {
-      Promise.resolve()
-        .then(function () {
-          request(sails.hooks.http.app)
-            .get(endpoint+"/fakeid")
-            .expect(404)
-            .expect(function(res) {
-              var result = res.body;
-              assert(_.isPlainObject(result), 'result is not object');
-              assert('err_msg' in result, 'err_msg field doesn\'t exist' );
-              assert('status' in result, 'status field doesn\'t exist' );
-              assert(result.status === '404', 'error status is not 404');
-            })
-            .end(done);
-        });
-    });
+    // it('should return 404 when content not found', function (done) {
+    //   Promise.resolve()
+    //     .then(function () {
+    //       request(sails.hooks.http.app)
+    //         .get(endpoint+"/fakeid")
+    //         .expect(404)
+    //         .expect(function(res) {
+    //           var result = res.body;
+    //           assert(_.isPlainObject(result), 'result is not object');
+    //           assert('err_msg' in result, 'err_msg field doesn\'t exist' );
+    //           assert('status' in result, 'status field doesn\'t exist' );
+    //           assert(result.status === '404', 'error status is not 404');
+    //         })
+    //         .end(done);
+    //     });
+    // });
 
     it('should return content with tags', function (done) {
       Promise.resolve()

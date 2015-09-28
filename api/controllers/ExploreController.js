@@ -10,15 +10,18 @@ var Promise = require('bluebird');
 module.exports = {
 
   getContent: function (req, res) {
-    var cs = ControllerService.build(res);
+    var cs = ControllerService.build(req, res);
     var params = req.allParams();
+    var page = +params['page']-1;
+    var itemsPerPage = 10;
 
     Promise
       .resolve()
       .then(function () {
         return Content
           .find({})
-          .limit(10)
+          .limit(itemsPerPage)
+          .skip(page*itemsPerPage)
       })
       .then(function (contents) {
         return contents
@@ -27,9 +30,7 @@ module.exports = {
           })
       })
       .then(function (contents) {
-        return res.view('explore/explore', {
-          contents: contents
-        });
+        cs.view('explore/explore', {contents: contents});
       });
 
   }

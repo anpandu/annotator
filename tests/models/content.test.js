@@ -24,6 +24,7 @@ describe('ContentModel', function() {
           return res.getContentRowForm();
         })
         .then(function (res) {
+          assert('id' in res, 'id field doesn\'t exist' );
           assert('title' in res, 'title field doesn\'t exist' );
           done();
         })

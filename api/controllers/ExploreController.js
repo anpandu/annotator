@@ -27,7 +27,6 @@ module.exports = {
           })
       })
       .then(function (contents) {
-        // cs.respondSuccess(contents);
         return res.view('explore/explore', {
           contents: contents
         });

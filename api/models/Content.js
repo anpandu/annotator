@@ -17,6 +17,7 @@ module.exports = {
     getContentRowForm: function () {
       var _this = this.toJSON();
       var result = {
+        id: _this.id,
       	title: _this.title
       };
       return result;

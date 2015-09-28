@@ -16,6 +16,10 @@ describe('ExploreController', function() {
               assert('contents' in result, 'contents not found');
               assert(_.isArray(result.contents), 'contents is not array');
               assert(result.contents.length == 10, 'wrong number of contents');
+              assert('total_pages' in result, 'total_pages not found');
+              assert(result.total_pages == 2, 'wrong total_pages');
+              assert('page' in result, 'page not found');
+              assert(result.page == 1, 'wrong page');
             });
         })
         .then(function () {
@@ -24,9 +28,8 @@ describe('ExploreController', function() {
             .expect(200)
             .expect(function(res) {
               var result = res.body;
-              assert('contents' in result, 'contents not found');
-              assert(_.isArray(result.contents), 'contents is not array');
               assert(result.contents.length == 10, 'wrong number of contents');
+              assert(result.page == 1, 'wrong page');
             });
         })
         .then(function () {
@@ -35,9 +38,8 @@ describe('ExploreController', function() {
             .expect(200)
             .expect(function(res) {
               var result = res.body;
-              assert('contents' in result, 'contents not found');
-              assert(_.isArray(result.contents), 'contents is not array');
               assert(result.contents.length == 3, 'wrong number of contents');
+              assert(result.page == 2, 'wrong page');
             })
             .end(done);
         });

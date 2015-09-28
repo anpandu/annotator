@@ -24,13 +24,25 @@ module.exports = {
           .skip(page*itemsPerPage)
       })
       .then(function (contents) {
-        return contents
+        var p1 = contents
           .map(function (c) {
             return c.getContentRowForm();
           })
+        var p2 = Content
+          .count({})
+          .then(function (n) {
+            return Math.ceil(n/itemsPerPage);
+          })
+        return Promise.all([p1, p2]);
       })
-      .then(function (contents) {
-        cs.view('explore/explore', {contents: contents});
+      .then(function (proms) {
+        var contents = proms[0];
+        var total_pages = proms[1];
+        cs.view('explore/explore', {
+          contents: contents,
+          total_pages: total_pages,
+          page: page+1
+        });
       });
 
   }

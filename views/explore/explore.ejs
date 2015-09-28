@@ -1,5 +1,7 @@
 <script>
     var _contents = <%-JSON.stringify(contents)%>;
+    var _total_pages = <%-JSON.stringify(total_pages)%>;
+    var _page = <%-JSON.stringify(page)%>;
 </script>
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
@@ -12,6 +14,7 @@
     <div style="height:100px;"></div>
     <div class="row">
       <div class="col-sm-12" id="content">
+
         <div class="panel panel-default">    
           <div class="panel-heading clearfix">
             <h3 class="panel-title pull-left">Contents</h3>
@@ -19,6 +22,29 @@
           <div class="panel-body" id="ContentsCardHolder">
           </div>
         </div>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <nav>
+              <ul class="pagination">
+                <li>
+                  <a href="/explore/<%= (page==1) ? 1 : page-1 %>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <% for(var i=1; i<=total_pages; i++) {%>
+                  <li><a href="/explore/<%=i%>"><%=i%></a></li>
+                <% } %>
+                <li>
+                  <a href="/explore/<%= (page==total_pages) ? total_pages : page+1 %>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

@@ -13,6 +13,7 @@ module.exports = {
     var cs = ControllerService.build(req, res);
     var _tags = [
       {title: 'organization', content:''},
+      {title: 'person', content:''},
       {title: 'place', content:''},
       {title: 'time', content:''}
     ];
@@ -41,6 +42,9 @@ module.exports = {
           var values = _.values(annotation.value);
           for (var i = 0; i < keys.length; i++)
             tags.push({'title': keys[i], 'content': values[i]})
+          for (var i = 0; i < _tags.length; i++)
+            if (!_.include(keys, _tags[i].title))
+              tags.push(_tags[i]);
         }
         cs.view('tag/tagger', {
           content: content,

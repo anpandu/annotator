@@ -13,6 +13,7 @@ module.exports = {
     var cs = ControllerService.build(req, res);
     var _tags = [
       {title: 'organization', content:''},
+      {title: 'person', content:''},
       {title: 'place', content:''},
       {title: 'time', content:''}
     ];
@@ -37,10 +38,14 @@ module.exports = {
         if (_.isUndefined(annotation))
           tags =  _tags;
         else {
-          var keys = _.keys(annotation.value);
-          var values = _.values(annotation.value);
+          var temp_tags = annotation.getTags();
+          var keys = _.map(temp_tags, function (tt) { return tt[0]; });
+          var values = _.map(temp_tags, function (tt) { return tt[1]; });
           for (var i = 0; i < keys.length; i++)
             tags.push({'title': keys[i], 'content': values[i]})
+          for (var i = 0; i < _tags.length; i++)
+            if (!_.include(keys, _tags[i].title))
+              tags.push(_tags[i]);
         }
         cs.view('tag/tagger', {
           content: content,

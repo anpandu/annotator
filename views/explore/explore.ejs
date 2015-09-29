@@ -31,30 +31,11 @@
           <div class="panel-heading clearfix">
             <h3 class="panel-title pull-left">Contents</h3>
           </div>
-          <div class="panel-body" id="ContentsCardHolder">
-          </div>
+          <div class="panel-body" id="ContentsCardHolder"></div>
         </div>
 
         <div class="panel panel-default">
-          <div class="panel-body">
-            <nav>
-              <ul class="pagination">
-                <li>
-                  <a href="/explore/<%= (page==1) ? 1 : page-1 %>" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <% for(var i=1; i<=total_pages; i++) {%>
-                  <li><a href="/explore/<%=i%>"><%=i%></a></li>
-                <% } %>
-                <li>
-                  <a href="/explore/<%= (page==total_pages) ? total_pages : page+1 %>" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
+          <div class="panel-body" id="PaginationHolder"></div>
         </div>
 
       </div>
@@ -68,10 +49,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
 <script type="text/jsx" src="/js/explore/contents_card.js"></script>
+<script type="text/jsx" src="/js/explore/pagination.js"></script>
 
 <script type="text/jsx">
   React.render(
       <ContentsCard contents={_contents}/>,
       document.getElementById('ContentsCardHolder')
+  );
+  React.render(
+      <Pagination page={_page} total_pages={_total_pages}/>,
+      document.getElementById('PaginationHolder')
   );
 </script>

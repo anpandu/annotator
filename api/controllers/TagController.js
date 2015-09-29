@@ -11,12 +11,7 @@ module.exports = {
   
   getContent: function (req, res) {
     var cs = ControllerService.build(req, res);
-    var _tags = [
-      {title: 'organization', content:''},
-      {title: 'person', content:''},
-      {title: 'place', content:''},
-      {title: 'time', content:''}
-    ];
+    var _tags = sails.config.tag.default_tags;
 
     Promise
       .resolve()

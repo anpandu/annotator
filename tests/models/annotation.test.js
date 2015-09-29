@@ -62,7 +62,6 @@ describe('AnnotationModel', function() {
           return annotation.getTags();
         })
         .then(function (tags) {
-          console.log(tags);
           assert(_.isArray(tags), 'tags is not array' );
           assert(tags.length == 3, 'wrong number of tags' );
           done();

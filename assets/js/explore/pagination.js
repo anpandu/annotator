@@ -19,10 +19,11 @@ var Pagination = React.createClass({
     var prev_disabled = (page == 1) ? 'disabled' : '';
     var next_disabled = (page == total_pages) ? 'disabled' : '';
 
-    var pagination_n = 7;
-    var count = page - 4;
-    count = (page < 4) ? 0 : count;
-    count = (page > total_pages-4) ? total_pages-7 : count;
+    var pagination_n = (total_pages>7) ? 7 : total_pages;
+    var half_n = Math.ceil(pagination_n/2);
+    var count = page - half_n;
+    count = (page < half_n) ? 0 : count;
+    count = (page > total_pages-half_n) ? total_pages-pagination_n : count;
     var na = Array.apply(null, {length: pagination_n}).map(Number.call, Number)
     var page_numbers = na.map(function (content) {
       count += 1;

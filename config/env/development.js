@@ -18,7 +18,7 @@ module.exports = {
    ***************************************************************************/
 
   models: {
-    connection: 'localDiskDb',
+    connection: 'annotation_dev',
     migrate: 'safe'
   }
 

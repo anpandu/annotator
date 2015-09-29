@@ -1,18 +1,15 @@
 var ContentRowCard = React.createClass({
     render: function () {
         var content = this.props.content;
-        var label = content.title.charAt(0).toUpperCase() + content.title.slice(1).toLowerCase();
         var link = '/tag/' + content.id;
-
+        // var label = content.title.charAt(0).toUpperCase() + content.title.slice(1).toLowerCase();
         return (
             <div>
               <tr>
                 <td>{this.props.number}</td>
-                <td>{label}</td>
-                <td>-</td>
-                <td>
-                    <a href={link}>edit</a>
-                </td>
+                <td><a href={link}>{content.id}</a></td>
+                <td>{content.title}</td>
+                <td><a href={link}>edit</a></td>
               </tr>
             </div>
         );
@@ -39,8 +36,8 @@ var ContentsCard = React.createClass({
                 <table className="table table-bordered">
                   <tr>
                     <td>No</td>
+                    <td>ID</td>
                     <td>Title</td>
-                    <td>Status</td>
                     <td>Action</td>
                   </tr>
                   <div>{contentsCards}</div>

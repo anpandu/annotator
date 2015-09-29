@@ -1,5 +1,5 @@
 var Sails = require('sails')
-
+var fs = require('fs')
 
 var addContents = function (contents) {
   if (contents.length>0) {
@@ -10,8 +10,8 @@ var addContents = function (contents) {
     return Content
       .create(content)
       .then(function (c) {
-        console.log(c.title)
-        addContents(contents)
+        console.log('['+contents.length+'] '+c.title)
+        return addContents(contents)
       })
   }
   else
@@ -29,13 +29,23 @@ Sails.lift({
   sails = server
   if (err) 
     return console.log(err)
-
   Promise.resolve()
     .then(function () {
-      return Content.find({})
-    })
-    .then(function (contents) {
-      addContents(contents)
+      var filename = process.argv[2]
+      console.log(filename)
+      fs.readFile(filename, 'utf8', function (err, data) {
+        if (err) console.log(err)
+        return Promise
+          .resolve(data)
+          .then(function (result) {
+            var contents = JSON.parse(result)
+            return addContents(contents)
+          })
+          .then(function () {
+            console.log('=== FINISH ===')
+            Sails.lower()
+          })
+      })
     })
 
 })

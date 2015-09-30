@@ -1,9 +1,18 @@
 var TagCard = React.createClass({
+    getInitialState: function() {
+      return {tag: this.props.tag};
+    },
+    handleChange: function(event) {
+      var new_tag = JSON.parse(JSON.stringify(this.state.tag));
+      new_tag.content = event.target.value;
+      this.setState({tag: new_tag});
+      this.props.handleChange(new_tag);
+    },
     addCopy: function () {
-        this.props.addCopyToTagList(this.props.tag);
+        this.props.addCopyToTagList(this.state.tag);
     },
     remCopy: function () {
-        this.props.remCopyFromTagList(this.props.tag);
+        this.props.remCopyFromTagList(this.state.tag);
     },
     render: function () {
         var tag = this.props.tag;
@@ -13,7 +22,7 @@ var TagCard = React.createClass({
               <label for="{tag.title}" className="col-sm-3 control-label">{label}</label>
               <div className="col-sm-9">
                 <div className="input-group">
-                    <input type="text" className="form-control" id={tag.title} placeholder={tag.title} name={tag.title} defaultValue={tag.content}/>
+                    <input type="text" className="form-control" id={tag.title} placeholder={tag.title} name={tag.title} defaultValue={tag.content} onChange={this.handleChange}/>
                     <span role="button" onClick={this.addCopy} className="input-group-addon">+</span>
                     <span role="button" onClick={this.remCopy} className="input-group-addon">x</span>
                 </div>
@@ -33,7 +42,8 @@ var TagList = React.createClass({
         var new_tags = JSON.parse(JSON.stringify(this.state.tags));
         var new_data = JSON.parse(JSON.stringify(data));
         var idx = 0;
-        for (var i = 0; i < new_tags.length; i++) if (new_tags[i].title == data.title) idx = i+1;
+        for (var i = 0; i < new_tags.length; i++) if (new_tags[i].tag_id == data.tag_id) idx = i+1;
+        new_data.tag_id = Math.random();
         new_data.content = '';
         new_tags.splice(idx, 0, new_data);
         React.unmountComponentAtNode(document.getElementById('tag_list'));
@@ -50,12 +60,21 @@ var TagList = React.createClass({
         React.unmountComponentAtNode(document.getElementById('tag_list'));
         React.render( <TagList tags={new_tags}/>, document.getElementById('tag_list') );
     },
+    handleTagChange : function (data) {
+        var new_tags = JSON.parse(JSON.stringify(this.state.tags));
+        var new_data = JSON.parse(JSON.stringify(data));
+        for (var i = 0; i < new_tags.length; i++) 
+            if (new_tags[i].tag_id == data.tag_id)
+              new_tags[i] = new_data
+        this.setState({tags: new_tags});
+        this.forceUpdate();
+    },
     render: function () {
         var _this = this;
         var tagCards = this.state.tags.map(function (tag) {
-            tag.tag_id = Math.random();
+            tag.tag_id = ('tag_id' in tag) ? tag.tag_id : Math.random();
             return (
-                <TagCard tag={tag} addCopyToTagList={_this.handleAddCopy} remCopyFromTagList={_this.handleRemCopy}></TagCard>
+                <TagCard tag={tag} addCopyToTagList={_this.handleAddCopy} remCopyFromTagList={_this.handleRemCopy} handleChange={_this.handleTagChange}></TagCard>
             );
         });
         return (

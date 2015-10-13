@@ -71,4 +71,26 @@ describe('AnnotationModel', function() {
 
   });
 
+  describe('#convertFormDataToLabel', function() {
+
+    it('should return singular tags', function (done) {
+      var formData = {
+        label1: ['test_annotation_3.1'],
+        label2: ['test_annotation_3.2', 'test_annotation_3.3']
+      }
+      var ans = [
+        { label : 'food', words : ['test_annotation_3'] },
+        { label : 'food', words : ['test_annotation_3.2', 'test_annotation_3.3'] }
+      ]
+      var labels = Annotation.convertFormDataToLabel(formData);
+      assert(_.isArray(labels), 'labels is not array' );
+      labels.forEach(function (label) {
+        assert('label' in label, 'label field doesn\'t exist' );
+        assert('words' in label, 'words field doesn\'t exist' );
+      });
+      done();
+    });
+
+  });
+
 });

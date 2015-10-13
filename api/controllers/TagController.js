@@ -55,9 +55,12 @@ module.exports = {
   storeAnnotation: function (req, res) {
     var cs = ControllerService.build(req, res);
     var params = req.allParams();
+    console.log(params);
     var content_id = params['content_id'];
     var user_id = req.user.id;
     delete params['content_id'];
+
+    var labels = params;
 
     Promise
       .resolve()
@@ -72,14 +75,14 @@ module.exports = {
             },
             {
               text: content.text,
-              value: params,
+              value: labels,
               user: user_id,
               content: content_id
           })
       })
       .then(function (annotation) {
         return Annotation
-          .update({id: annotation.id}, {value: params})
+          .update({id: annotation.id}, {value: labels})
       })
       .then(function (annotation) {
         return Content

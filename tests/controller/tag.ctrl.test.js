@@ -52,7 +52,7 @@ describe('TagController', function() {
           _user = result[1];
           return Annotation.create({
             text: _content.text,
-            value: {hai:'haihai', hoi:'hoihoi', hii:'hiihii', },
+            value: [ { label : 'someValue', words : ['haihai'] }, { label : 'someValueB', words : ['hoihoi', 'hiihii'] }],
             user: _user.id,
             content: _content.id 
           })

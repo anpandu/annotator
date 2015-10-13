@@ -54,11 +54,11 @@ describe('AnnotationModel', function() {
 
     it('should return singular tags', function (done) {
       Annotation
-        .create({ text:'test_annotation_1.2', value: {someValue:'test_annotation_1.2', someValueB: ['test_annotation_1.2b', 'test_annotation_1.2c']} })
+        .create({ text:'test_annotation_1.2', value: [ { label : 'someValue', words : ['test_annotation_1.2'] }, { label : 'someValueB', words : ['test_annotation_1.2b', 'test_annotation_1.2c'] } ]})
         .then(function (annotation) {
           assert('text' in annotation, 'text field doesn\'t exist' );
           assert('value' in annotation, 'value field doesn\'t exist' );
-          assert(_.isPlainObject(annotation.value), 'value is not object' );
+          assert(_.isArray(annotation.value), 'value is not array' );
           return annotation.getTags();
         })
         .then(function (tags) {
@@ -67,6 +67,28 @@ describe('AnnotationModel', function() {
           done();
         })
         .catch(done);
+    });
+
+  });
+
+  describe('#convertFormDataToLabel', function() {
+
+    it('should return singular tags', function (done) {
+      var formData = {
+        label1: ['test_annotation_3.1'],
+        label2: ['test_annotation_3.2', 'test_annotation_3.3']
+      }
+      var ans = [
+        { label : 'food', words : ['test_annotation_3'] },
+        { label : 'food', words : ['test_annotation_3.2', 'test_annotation_3.3'] }
+      ]
+      var labels = Annotation.convertFormDataToLabel(formData);
+      assert(_.isArray(labels), 'labels is not array' );
+      labels.forEach(function (label) {
+        assert('label' in label, 'label field doesn\'t exist' );
+        assert('words' in label, 'words field doesn\'t exist' );
+      });
+      done();
     });
 
   });

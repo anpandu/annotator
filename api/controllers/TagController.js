@@ -59,6 +59,8 @@ module.exports = {
     var user_id = req.user.id;
     delete params['content_id'];
 
+    var labels = Annotation.convertFormDataToLabel(params);
+
     Promise
       .resolve()
       .then(function () {
@@ -72,14 +74,14 @@ module.exports = {
             },
             {
               text: content.text,
-              value: params,
+              value: labels,
               user: user_id,
               content: content_id
           })
       })
       .then(function (annotation) {
         return Annotation
-          .update({id: annotation.id}, {value: params})
+          .update({id: annotation.id}, {value: labels})
       })
       .then(function (annotation) {
         return Content

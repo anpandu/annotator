@@ -18,16 +18,19 @@ module.exports = {
 
     getTags: function () {
         var result = this.value;
-        result = _.map(result, function (val, key) {
-            if (!_.isArray(val)) {
+
+        result = _.map(result, function (val) {
+            var label = val.label;
+            var words = val.words;
+            if (!_.isArray(words)) {
                 var obj = {};
-                obj[key] = val;
+                obj[label] = words;
                 return obj;
             } else {
                 var arr = [];
-                for (var i = 0; i < val.length; i++) {
+                for (var i = 0; i < words.length; i++) {
                     var obj = {};
-                    obj[key] = val[i];
+                    obj[label] = words[i];
                     arr.push(obj);  
                 };
                 return arr;

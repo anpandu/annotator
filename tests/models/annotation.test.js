@@ -54,11 +54,11 @@ describe('AnnotationModel', function() {
 
     it('should return singular tags', function (done) {
       Annotation
-        .create({ text:'test_annotation_1.2', value: {someValue:'test_annotation_1.2', someValueB: ['test_annotation_1.2b', 'test_annotation_1.2c']} })
+        .create({ text:'test_annotation_1.2', value: [ { label : 'someValue', words : ['test_annotation_1.2'] }, { label : 'someValueB', words : ['test_annotation_1.2b', 'test_annotation_1.2c'] } ]})
         .then(function (annotation) {
           assert('text' in annotation, 'text field doesn\'t exist' );
           assert('value' in annotation, 'value field doesn\'t exist' );
-          assert(_.isPlainObject(annotation.value), 'value is not object' );
+          assert(_.isArray(annotation.value), 'value is not array' );
           return annotation.getTags();
         })
         .then(function (tags) {

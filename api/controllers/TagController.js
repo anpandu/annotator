@@ -55,12 +55,11 @@ module.exports = {
   storeAnnotation: function (req, res) {
     var cs = ControllerService.build(req, res);
     var params = req.allParams();
-    console.log(params);
     var content_id = params['content_id'];
     var user_id = req.user.id;
     delete params['content_id'];
 
-    var labels = params;
+    var labels = Annotation.convertFormDataToLabel(params);
 
     Promise
       .resolve()
